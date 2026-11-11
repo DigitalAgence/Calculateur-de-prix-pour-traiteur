@@ -1,0 +1,351 @@
+:root {
+  --bg: #f4f6f1;
+  --card: #fff;
+  --ink: #14281f;
+  --mute: #5d6b63;
+  --line: #d8ddd4;
+  --brand: #1f5c4a;
+  --brand-ink: #fff;
+  --accent: #f0b030;
+  --in-bg: #fff4cc;
+  --in-ink: #1637b8;
+  --link: #1b7a3d;
+  --bad: #b42318;
+  --good: #1b7a3d;
+  --hl: #e6efe9;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1a15;
+    --card: #17241d;
+    --ink: #e8efe9;
+    --mute: #9db0a4;
+    --line: #2b3b32;
+    --brand: #3d9a7c;
+    --brand-ink: #08130e;
+    --in-bg: #3a3213;
+    --in-ink: #9db8ff;
+    --link: #6fd08f;
+    --bad: #ff8a7a;
+    --good: #6fd08f;
+    --hl: #1e3128;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1a15;
+  --card: #17241d;
+  --ink: #e8efe9;
+  --mute: #9db0a4;
+  --line: #2b3b32;
+  --brand: #3d9a7c;
+  --brand-ink: #08130e;
+  --in-bg: #3a3213;
+  --in-ink: #9db8ff;
+  --link: #6fd08f;
+  --bad: #ff8a7a;
+  --good: #6fd08f;
+  --hl: #1e3128;
+  color-scheme: dark;
+}
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font:
+    15px/1.5 "Instrument Sans",
+    system-ui,
+    sans-serif;
+}
+header {
+  background: var(--brand);
+  color: var(--brand-ink);
+  padding: 22px 20px 0;
+}
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+h1 {
+  font:
+    700 clamp(24px, 4vw, 34px)/1.1 "Bricolage Grotesque",
+    sans-serif;
+  margin: 0 0 4px;
+}
+header p {
+  margin: 0 0 16px;
+  opacity: 0.85;
+}
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.kpi {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.kpi b {
+  display: block;
+  font:
+    700 22px "Bricolage Grotesque",
+    sans-serif;
+}
+.kpi span {
+  font-size: 13px;
+  opacity: 0.85;
+}
+nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+nav button {
+  flex: none;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  padding: 10px 14px;
+  font: 600 14px inherit;
+  font-family: inherit;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  opacity: 0.8;
+}
+nav button[aria-selected="true"] {
+  background: var(--bg);
+  color: var(--ink);
+  opacity: 1;
+}
+nav button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 22px 20px 60px;
+}
+section[hidden] {
+  display: none;
+}
+h2 {
+  font:
+    700 24px "Bricolage Grotesque",
+    sans-serif;
+  margin: 0 0 4px;
+}
+h3 {
+  font:
+    700 17px "Bricolage Grotesque",
+    sans-serif;
+  margin: 26px 0 8px;
+}
+.sub {
+  color: var(--mute);
+  margin: 0 0 18px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 6px 16px;
+}
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) 150px minmax(0, 1.4fr);
+  gap: 6px 16px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.row:last-child {
+  border-bottom: 0;
+}
+.row .h {
+  color: var(--mute);
+  font-size: 13px;
+}
+.row.tot {
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .row {
+    grid-template-columns: 1fr 130px;
+  }
+  .row .h {
+    grid-column: 1/-1;
+  }
+}
+input,
+select {
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+}
+input.in,
+select.in {
+  background: var(--in-bg);
+  color: var(--in-ink);
+  border-color: transparent;
+  font-weight: 500;
+}
+input[type="number"] {
+  text-align: right;
+}
+.out {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding: 7px 4px;
+}
+.out.link {
+  color: var(--link);
+}
+.out.big {
+  font:
+    700 20px "Bricolage Grotesque",
+    sans-serif;
+}
+.pos {
+  color: var(--good);
+}
+.neg {
+  color: var(--bad);
+}
+.tw {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 760px;
+}
+th {
+  font-size: 13px;
+  text-align: left;
+  padding: 9px 8px;
+  color: var(--mute);
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+}
+td {
+  padding: 4px 5px;
+  border-bottom: 1px solid var(--line);
+}
+tr:last-child td {
+  border-bottom: 0;
+}
+td .out {
+  padding: 7px 4px;
+}
+.btn {
+  font: 600 14px inherit;
+  font-family: inherit;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn.pri {
+  background: var(--brand);
+  color: var(--brand-ink);
+  border-color: var(--brand);
+}
+.x {
+  border: 0;
+  background: none;
+  color: var(--mute);
+  cursor: pointer;
+  font-size: 18px;
+}
+.legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  margin: 0 0 16px;
+}
+.legend i {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  vertical-align: -2px;
+  margin-right: 5px;
+  background: var(--in-bg);
+  border: 1px solid var(--in-ink);
+}
+.legend i.l {
+  background: var(--card);
+  border-color: var(--link);
+}
+.note {
+  background: var(--hl);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 18px 0;
+  font-size: 14px;
+}
+.cmp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+}
+.cmp div {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.cmp b {
+  display: block;
+  font:
+    700 24px "Bricolage Grotesque",
+    sans-serif;
+}
+.cmp span {
+  color: var(--mute);
+  font-size: 13px;
+}
+.bar {
+  height: 10px;
+  border-radius: 6px;
+  background: var(--line);
+  overflow: hidden;
+  margin-top: 8px;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.foot {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}

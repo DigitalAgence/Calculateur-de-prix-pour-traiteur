@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Calculateur de prix Gourmet Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <h1>Calculateur de prix Gourmet Academy</h1>
+        <p>
+          Du coût d’un plat à votre seuil de rentabilité. Les montants
+          préremplis sont des exemples fictifs.
+        </p>
+        <div class="kpis">
+          <div class="kpi">
+            <b id="k1">–</b><span>Coût de revient par portion</span>
+          </div>
+          <div class="kpi">
+            <b id="k2">–</b><span>Prix HT retenu par portion</span>
+          </div>
+          <div class="kpi">
+            <b id="k3">–</b><span>Marge nette du devis</span>
+          </div>
+          <div class="kpi">
+            <b id="k4">–</b><span>Convives par mois pour être rentable</span>
+          </div>
+        </div>
+        <nav role="tablist" id="tabs"></nav>
+      </div>
+    </header>
+    <main>
+      <section data-tab="Mode d’emploi">
+        <h2>Mode d’emploi</h2>
+        <p class="sub">
+          Module 5 : Prix et rentabilité. Formation « Lancer et développer son
+          activité de traiteur ».
+        </p>
+        <div class="card">
+          <div class="row">
+            <div><b>1. Paramètres</b></div>
+            <div class="h" style="grid-column: 2/-1">
+              Renseignez vos taux de TVA, votre coût horaire, vos frais fixes et
+              vos objectifs.
+            </div>
+          </div>
+          <div class="row">
+            <div><b>2. Coût de revient</b></div>
+            <div class="h" style="grid-column: 2/-1">
+              Saisissez les ingrédients d’un plat, avec les quantités achetées
+              et les prix d’achat.
+            </div>
+          </div>
+          <div class="row">
+            <div><b>3. Prix de vente</b></div>
+            <div class="h" style="grid-column: 2/-1">
+              Choisissez un coefficient, comparez avec le marché et retenez
+              votre prix HT par portion.
+            </div>
+          </div>
+          <div class="row">
+            <div><b>4. Devis événement</b></div>
+            <div class="h" style="grid-column: 2/-1">
+              Chiffrez une prestation complète et vérifiez votre marge.
+            </div>
+          </div>
+          <div class="row">
+            <div><b>5. Seuil de rentabilité</b></div>
+            <div class="h" style="grid-column: 2/-1">
+              Calculez le nombre de convives à servir chaque mois.
+            </div>
+          </div>
+        </div>
+        <h3>Code couleur</h3>
+        <div class="legend">
+          <span><i></i>Fond jaune, texte bleu : à remplir ou modifier</span
+          ><span>Texte noir : calcul automatique</span
+          ><span style="color: var(--link)"
+            ><i class="l"></i>Texte vert : repris d’un autre onglet</span
+          >
+        </div>
+        <div class="note">
+          <b>Important.</b> Tous les montants et pourcentages préremplis sont
+          des exemples fictifs : remplacez-les par vos prix, vos fournisseurs et
+          vos coûts réels. Les taux de TVA dépendent de la nature de la
+          prestation et de votre régime : faites-les valider par un
+          expert-comptable ou le service des impôts des entreprises. Les
+          montants sont en euros.
+        </div>
+        <p class="sub">Vos saisies sont conservées dans ce navigateur.</p>
+        <button class="btn" id="reset">Revenir aux valeurs d’exemple</button>
+      </section>
+
+      <section data-tab="Paramètres" id="s-p"></section>
+
+      <section data-tab="Coût de revient">
+        <h2>Coût de revient d’un plat</h2>
+        <p class="sub">
+          Saisissez les quantités achetées (poids brut) et les prix d’achat.
+        </p>
+        <div class="card">
+          <div class="row">
+            <div>Nom du plat</div>
+            <div style="grid-column: 2/-1">
+              <input
+                class="in"
+                type="text"
+                data-k="c.name"
+                style="text-align: left"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div>Nombre de portions</div>
+            <div>
+              <input class="in" type="number" min="0" data-k="c.portions" />
+            </div>
+            <div></div>
+          </div>
+        </div>
+        <h3>Ingrédients</h3>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>Ingrédient</th>
+                <th>Quantité brute</th>
+                <th>Unité</th>
+                <th>Prix d’achat par unité (€)</th>
+                <th>Perte (%)</th>
+                <th>Quantité nette</th>
+                <th>Coût réel par unité nette (€)</th>
+                <th>Coût de la ligne (€)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="ing"></tbody>
+          </table>
+        </div>
+        <p><button class="btn" id="addIng">Ajouter un ingrédient</button></p>
+        <h3>Synthèse</h3>
+        <div class="card" id="costsum"></div>
+        <div class="note">
+          Le coût réel par unité nette montre le vrai prix de ce que vous
+          utilisez, perte comprise : prix d’achat ÷ (1 − perte). Un kilo
+          d’oignons à 1,60 € avec 15 % de perte revient à environ 1,88 € le kilo
+          utilisable.
+        </div>
+      </section>
+
+      <section data-tab="Prix de vente" id="s-v"></section>
+
+      <section data-tab="Devis événement">
+        <h2>Devis événement : chiffrage et marge</h2>
+        <p class="sub">
+          Exemple fictif d’un buffet pour 50 personnes. Modifiez les cellules
+          jaunes.
+        </p>
+        <div class="card">
+          <div class="row">
+            <div>Client</div>
+            <div style="grid-column: 2/-1">
+              <input
+                class="in"
+                type="text"
+                data-k="d.client"
+                style="text-align: left"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div>Date de l’événement</div>
+            <div style="grid-column: 2/-1">
+              <input
+                class="in"
+                type="text"
+                data-k="d.date"
+                placeholder="À définir"
+                style="text-align: left"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div>Nombre de convives</div>
+            <div>
+              <input class="in" type="number" min="0" data-k="d.conv" />
+            </div>
+            <div></div>
+          </div>
+          <div class="row">
+            <div>Prix HT retenu par convive (€)</div>
+            <div class="out link" id="d-pu"></div>
+            <div></div>
+          </div>
+        </div>
+        <h3>Lignes du devis</h3>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>Désignation</th>
+                <th>Quantité</th>
+                <th>Prix unitaire HT (€)</th>
+                <th>TVA</th>
+                <th>Total HT (€)</th>
+                <th>Coût estimé pour moi (€)</th>
+              </tr>
+            </thead>
+            <tbody id="dl"></tbody>
+          </table>
+        </div>
+        <div class="cmp" style="margin-top: 16px">
+          <div><span>Total HT</span><b id="d-ht"></b></div>
+          <div><span>TVA</span><b id="d-tva"></b></div>
+          <div><span>Total TTC</span><b id="d-ttc"></b></div>
+          <div>
+            <span>Acompte demandé (% du TTC)</span
+            ><input
+              class="in"
+              type="number"
+              min="0"
+              max="100"
+              data-k="d.dep"
+              style="margin: 4px 0"
+            /><b id="d-acc"></b>
+          </div>
+        </div>
+        <h3>Contrôle de la marge</h3>
+        <div class="card">
+          <div class="row">
+            <div>Coût estimé total (€)</div>
+            <div class="out" id="m-cost"></div>
+            <div></div>
+          </div>
+          <div class="row">
+            <div>Part des frais fixes à répartir sur ce devis (€)</div>
+            <div class="out" id="m-fix"></div>
+            <div></div>
+          </div>
+          <div class="row">
+            <div>Charges sociales et impôts estimés (€)</div>
+            <div class="out" id="m-chg"></div>
+            <div></div>
+          </div>
+          <div class="row tot">
+            <div>Marge nette estimée sur ce devis (€)</div>
+            <div class="out big" id="m-net"></div>
+            <div></div>
+          </div>
+          <div class="row tot">
+            <div>Taux de marge nette estimée</div>
+            <div class="out big" id="m-rate"></div>
+            <div class="h" id="m-msg"></div>
+          </div>
+        </div>
+        <div class="note">
+          La marge nette est ce qui reste, sur ce devis, après le coût direct,
+          une part des frais fixes et vos charges. Si elle est faible ou
+          négative, revoyez le prix du menu, les frais annexes ou les quantités.
+        </div>
+      </section>
+
+      <section data-tab="Seuil de rentabilité" id="s-s"></section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
